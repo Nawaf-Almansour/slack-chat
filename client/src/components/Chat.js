@@ -63,8 +63,8 @@ const Chat = (props) => {
             receiverId: "",
         }
         return (
-            <Row onClick={() => props.toggleChat(currentChat)} key={{room}}>
-                {room}
+            <Row onClick={() => props.toggleChat(currentChat)} key={room}>
+                #  {room}
             </Row>
         )
     }
@@ -102,16 +102,17 @@ const Chat = (props) => {
 
     let body;
 
-    if (!props.currentChat.isChannel || props.connectedRooms.include(props.currentChat.chatName)) {
+    if (!props.currentChat.isChannel || props.connectedRooms.includes(props.currentChat.chatName)) {
         body = (
             <Messages>
-                {props.message.map(renderMessages)}
+                {props.messages?.map(renderMessages)}
             </Messages>
         );
     } else {
         body = (
-            <boutton onClick={() => props.joinRoom(props.currentChat.chatName)}> Join {props.currentChat.chatName}</boutton>
-        )
+            <boutton onClick={() => props.joinRoom(props.currentChat.chatName)}>
+                {props.currentChat.chatName} Join {props.currentChat.chatName}</boutton>
+        );
     }
 
     function handleKeyPress(e) {
@@ -137,7 +138,7 @@ const Chat = (props) => {
                 </BodyContainer>
                 <TextBox
                     value={props.message}
-                    ocChange={props.handleMessageChange}
+                    onChange={props.handleMessageChange}
                     onKeyPress={handleKeyPress}
                     placeholder="say something I'm giving up on you..."
                 />

@@ -27,19 +27,24 @@ function App() {
 
     function sendMessage() {
         const payload = {
-            content: messages,
-            to: currentChat.isChannel,
+            content: message,
+            to: currentChat.isChannel ? currentChat.chatName : currentChat.receiverId,
             sender: username,
-            chatName: currentChat.isChannel
+            chatName: currentChat.chatName,
+            isChannel: currentChat.isChannel
         };
+        console.log(username)
+        console.log(message)
         socketRef.current.emit("send message", payload);
         const newMessages = immer(messages, draft => {
             draft[currentChat.chatName].push({
                 sender: username,
                 content: message
-            })
-        });
+            });
+            });
+
         setMessages(newMessages);
+        console.log(messages)
     }
 
     function roomJoinCallback(incomingMessages, room) {
@@ -58,6 +63,7 @@ function App() {
     }
 
     function toggleChat(currentChat) {
+        console.log(currentChat)
         if (!messages[currentChat.chatName]) {
             const newMessages = immer(messages, draft => {
                 draft[currentChat.chatName] = [];
@@ -97,7 +103,7 @@ function App() {
     if (connected) {
         body = (
             <Chat
-                message={{message}}
+                message={message}
                 handleMessageChange={handleMessageChange}
                 sendMessage={sendMessage}
                 yourId={socketRef.current ? socketRef.current.id : ""}
