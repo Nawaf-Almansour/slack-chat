@@ -1,4 +1,4 @@
-# slack-chat
+# slack chat => Socket IO
 
 Running this command initializes your project:
 
