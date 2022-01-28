@@ -22,7 +22,7 @@ function App() {
     const socketRef = useRef();
 
     function handleMessageChange(e) {
-        setMessages(e.target.value);
+        setMessage(e.target.value);
     }
 
     function sendMessage() {
